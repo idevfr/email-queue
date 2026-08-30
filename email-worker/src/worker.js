@@ -1,5 +1,9 @@
+import Redis from "ioredis";
 import { Worker } from "bullmq";
-import { sendMail } from "./nodemailer";
+import { sendMail } from "./nodemailer.js";
+const redis = new Redis(process.env.REDIS_URI || "redis://redis:6379", {
+  maxRetriesPerRequest: null,
+});
 const emailWorker = new Worker(
   "emails",
   async function (job) {
@@ -7,10 +11,7 @@ const emailWorker = new Worker(
     sendMail(job.data);
   },
   {
-    connection: {
-      host: "localhost",
-      port: 6379,
-    },
+    connection: redis,
   },
 );
 emailWorker.on("error", (err) => {
