@@ -1,0 +1,35 @@
+services:
+  redis:
+    container_name: email-queue-redis
+    image: redis:8-alpine
+    ports:
+      - 6379:6379
+    volumes:
+      - redis-data:/data
+    networks:
+      - email-queue-network
+    command: ["redis-server", "--appendonly", "yes"]
+
+  worker:
+    build: ./email-worker
+    environment:
+      - SENDER_EMAIL= YOUR_EMAIL
+      - SMTP_PASS= YOUR_SMTP_PASSWORD
+    networks:
+      - email-queue-network
+    depends_on:
+      - redis
+  backend:
+    build: ./backend
+    networks:
+      - email-queue-network
+    ports:
+      - 3001:3001
+    depends_on:
+      - redis
+
+volumes:
+  redis-data:
+networks:
+  email-queue-network:
+    driver: bridge
