@@ -60,12 +60,16 @@ Redis is exposed locally on:
 localhost:6379
 
 🛠️ Useful Commands
+
 Command	Description
-docker compose up	Start the project
-docker compose up -d	Start in background
-docker compose up --build	Rebuild and start
-docker compose logs -f worker	View worker logs
-docker compose down	Stop the project
+
+docker compose up -------	Start the project
+docker compose up -d	------- Start in background
+docker compose up --build ------	Rebuild and start
+docker compose logs -f worker	------ View worker logs
+docker compose down --------	Stop the project
+
+
 📁 Project Structure
 email-queue-worker/
 │
@@ -77,5 +81,3 @@ email-queue-worker/
 │
 └── backend/
     └── Backend source code
-
-<p align="center"> Built with ❤️ using <b>BullMQ</b>, <b>Redis</b> & <b>Docker</b> </p>
