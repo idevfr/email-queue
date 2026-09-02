@@ -1,5 +1,5 @@
 services:
-  redis:
+  rediseq:
     container_name: email-queue-redis
     image: redis:8-alpine
     ports:
@@ -13,12 +13,12 @@ services:
   worker:
     build: ./email-worker
     environment:
-      - SENDER_EMAIL= YOUR_EMAIL
-      - SMTP_PASS= YOUR_SMTP_PASSWORD
+      - SENDER_EMAIL=yourmail@example.com
+      - SMTP_PASS=secret_password
     networks:
       - email-queue-network
     depends_on:
-      - redis
+      - rediseq
   backend:
     build: ./backend
     networks:
@@ -26,7 +26,7 @@ services:
     ports:
       - 3001:3001
     depends_on:
-      - redis
+      - rediseq
 
 volumes:
   redis-data:
